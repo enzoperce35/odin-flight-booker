@@ -15,3 +15,12 @@ Airport.find_or_create_by(code: "LAX", name: "Los Angeles, CA")
 Airport.find_or_create_by(code: "DFW", name: "Dallas, TX")
 Airport.find_or_create_by(code: "MCO", name: "Orlando, FL")
 Airport.find_or_create_by(code: "DEN", name: "Denver, CO")
+
+
+start = Time.zone.today
+finish = Time.zone.today + 31.days
+
+(start..finish).each do |date|
+  flight_generator = FlightsHelper::FlightGenerator.new(date)
+  flight_generator.call
+end
