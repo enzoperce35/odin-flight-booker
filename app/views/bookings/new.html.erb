@@ -1,2 +1,12 @@
-<h1>Bookings#new</h1>
-<p>Find me in app/views/bookings/new.html.erb</p>
+<%= form_with model: @booking, local: true do |f| %>
+  <%= f.hidden_field :flight_id, :value => params[:booking_option].to_i %>
+  <%= f.hidden_field :num_tickets, :value => params[:num_tickets] %>
+  <%= f.fields_for :passengers do |passenger_form| %>
+    <%= passenger_form.hidden_field :id, value: nil %>
+    <%= passenger_form.label :name %>
+    <%= passenger_form.text_field :name, required: true, placeholder: 'name here' %></br>
+    <%= passenger_form.label :email %>
+    <%= passenger_form.email_field :email, required: true, placeholder: 'Email here' %></br>
+  <% end %>
+  <%= f.submit 'Finalize Booking' %>
+<% end %>
