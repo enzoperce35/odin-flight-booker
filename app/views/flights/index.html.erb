@@ -1,2 +1,26 @@
-<h1>Flights#index</h1>
-<p>Find me in app/views/flights/index.html.erb</p>
+<h1>Flight Picker</h1>
+
+<%= form_with(url: "/flights", method: :get) do |f|%>
+  <%= f.label(:origin_id, "From:") %>
+  <%= f.select(:origin_id, @airport_options) %></br>
+  <%= f.label(:destination_id, "To:") %>  
+  <%= f.select(:destination_id, @airport_options) %></br>
+  <%= f.label("Passengers:") %>
+  <%= f.select(:num_tickets, [1, 2, 3, 4], required: true ) %></br>
+  <%= f.date_field :departure_date, required: true, placeholder: "dd/mm/yyyy" %></br>
+
+  <%= f.submit "Find Flights" %>
+<% end %></br>
+
+<% if @booking_options %>
+  <%= form_with url: "/bookings/new/", method: :get, local: true do |f|%>
+    <%= f.hidden_field :num_tickets, :value => params[:num_tickets] %>
+    <% @flights.each do |flight| %>
+      <%= f.radio_button :booking_option, flight.id %>
+      <%= f.label("booking_option_" + flight.id.to_s, "From #{@airports.find(flight.origin_id).code} To #{@airports.find(flight.destination_id).code} on #{flight.departure_date} #{flight.departure_time.strftime("%l:%M %p")} ") %></br>
+    <% end %>
+    <%= f.submit "Book Flight" %>
+  <% end %>
+<% else %>
+  <%= "No flights found" %>
+<% end %>
