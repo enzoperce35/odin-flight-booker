@@ -1,2 +1,12 @@
-<h1>Bookings#show</h1>
-<p>Find me in app/views/bookings/show.html.erb</p>
+<%= "Booking was successful!" %></br></br>
+
+<%="From: " + Airport.find(Flight.find(@booking.flight_id).origin_id).name%></br>
+<%= "To: " + Airport.find(Flight.find(@booking.flight_id).destination_id).name%></br>
+<%= "Departure Date: #{Flight.find(@booking.flight_id).departure_date}"%></br>
+<%= "Departure Time: #{Flight.find(@booking.flight_id).departure_time.strftime("%l:%m %p")}"%></br>
+<%= "Tickets: " + @booking.passengers.count.to_s %></br>
+<%= "Passengers: "%></br>
+<% @booking.passengers.each do |passenger| %>
+  <%= "Name: #{passenger.name}" %></br>
+  <%= "Email: #{passenger.email}"%></br></br>
+<% end %>

@@ -9,7 +9,6 @@ class FlightsController < ApplicationController
     @booking_options = find_booking_choices
   end
 
-
   private
 
   def flight_params
@@ -21,7 +20,7 @@ class FlightsController < ApplicationController
       flash[:notice] = "Origin and destination cannot be the same"
       render :index
     else
-      #BookingsHelper::BookingChoices.new(flight_params).find_flights
+      BookingsHelper::BookingChoices.new(flight_params).find_flights
     end
   end
 end
