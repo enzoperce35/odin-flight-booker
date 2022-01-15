@@ -11,7 +11,7 @@ class BookingsController < ApplicationController
 
     if @booking.save
       flash[:notice] = "Booking created successfully."
-      PassengerMailer.confirmation_email(@booking).deliver_now
+      #PassengerMailer.confirmation_email(@booking).deliver_now
       redirect_to @booking
     else
       flash[:alert] = "Sorry, there was a problem creating your booking."
@@ -20,5 +20,21 @@ class BookingsController < ApplicationController
   end
 
   def show
+    @booking = Booking.find_by(id: params[:id])
+    return if @booking
+
+    flash[:alert] = "Sorry, this booking does not exist."
+    redirect_to root_url
+  end
+
+  private
+
+  def find_flights(booking_option)
+    flight_numbers = booking_option.split
+    flight_numbers.collect { |num| Flight.find_by(id: num) }
+  end
+
+  def passenger_params
+    params.require(:booking).permit(:flight_id, passengers_attributes: [:id, :name, :email])
   end
 end
